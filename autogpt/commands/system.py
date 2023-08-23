@@ -5,11 +5,12 @@ from __future__ import annotations
 COMMAND_CATEGORY = "system"
 COMMAND_CATEGORY_TITLE = "System"
 
-from typing import NoReturn
+import logging
 
 from autogpt.agents.agent import Agent
 from autogpt.command_decorator import command
-from autogpt.logs import logger
+
+logger = logging.getLogger(__name__)
 
 
 @command(
@@ -23,7 +24,7 @@ from autogpt.logs import logger
         }
     },
 )
-def task_complete(reason: str, agent: Agent) -> NoReturn:
+def task_complete(reason: str, agent: Agent) -> None:
     """
     A function that takes in a string and exits the program
 
@@ -33,5 +34,5 @@ def task_complete(reason: str, agent: Agent) -> NoReturn:
         A result string from create chat completion. A list of suggestions to
             improve the code.
     """
-    logger.info(title="Shutting down...\n", message=reason)
+    logger.info(reason, extra={"title": "Shutting down...\n"})
     quit()
